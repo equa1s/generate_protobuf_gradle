@@ -2,24 +2,24 @@
 
 _1. Install **protoc** before you go next steps_
 
-    ```
+```bash
     sudo apt-get install libprotoc
-    ```
+```
     
 _2. Create in src/main/ **'protos'** package, then place .proto source files there_
 
 _3. Add gradle task:_
 
-    ```java
+```java
     task task_name() {
         generate(java_package, regenerate)
     }
     preBuild.dependsOn task_name
-    ```
+```
     
 _4. Add next lines to gradle.build:_
 
-    ```java
+```java
     public void generate(String java_package, boolean regenerate) {
     
         final String project_path = project.projectDir.path + "/src/main"
@@ -55,11 +55,11 @@ _4. Add next lines to gradle.build:_
     
     
     }
-    ```
+```
 
 _... and this too._
 
-    ```java
+```java
     public String execute_cmd(String command) {
     
         StringBuffer output = new StringBuffer();
@@ -83,4 +83,4 @@ _... and this too._
         return output.toString();
     
     }
-    ```
+```
