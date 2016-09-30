@@ -1,18 +1,24 @@
 **Generate .java protobuf files from .proto sources**
+
 _1. Install **protoc** before you go next steps_
+
     ```bash
     sudo apt-get install libprotoc
     ```
+    
 _2. Create in src/main/ **'protos'** package, then place .proto source files there_
+
 _3. Add gradle task:_
+
     ```java
     task task_name() {
         generate(java_package, regenerate)
     }
     preBuild.dependsOn task_name
     ```
-
+    
 _4. Add next lines to gradle.build:_
+
     ```java
     public void generate(String java_package, boolean regenerate) {
     
@@ -52,6 +58,7 @@ _4. Add next lines to gradle.build:_
     ```
 
 _... and this too._
+
     ```java
     public String execute_cmd(String command) {
     
