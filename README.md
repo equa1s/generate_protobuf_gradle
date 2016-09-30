@@ -1,4 +1,4 @@
-**Generate .java protobuf files from .proto sources**
+**Generate .java protobuf files from .proto sources at the build stage**
 
 _1. Install **protoc** before you go next steps_
 
@@ -14,7 +14,6 @@ _3. Add gradle task:_
     def java_package = "/generated"
     def regenerate = true
 ```
-
 ```java
     task task_name() {
         generate(java_package, regenerate)
