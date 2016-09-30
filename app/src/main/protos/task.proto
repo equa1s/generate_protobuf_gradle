@@ -1,0 +1,14 @@
+option java_package = "generated";
+option java_outer_classname = "Task";
+
+option optimize_for = SPEED;
+
+message TaskProto {
+
+  required int32 id = 1;
+  optional string title = 2;
+  optional string assigned = 3;
+
+}
+
+

@@ -1,0 +1,10 @@
+option java_package = "generated";
+option java_outer_classname = "Account";
+
+option optimize_for = SPEED;
+
+message AccountProto {
+  required int32 id = 1;
+}
+
+

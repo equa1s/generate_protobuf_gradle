@@ -1,0 +1,108 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+
+
+    defaultConfig {
+        applicationId "custom.android.app4test"
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main {
+            jni.srcDirs = ['libs']
+        }
+    }
+}
+
+def java_package = "/generated"
+def regenerate = true
+
+task generateProtos() {
+    generate(java_package, regenerate)
+}
+preBuild.dependsOn generateProtos
+
+public void generate(String java_package, boolean regenerate) {
+
+    final String project_path = project.projectDir.path + "/src/main"
+
+    String proto_path = project_path + "/protos",
+            java_out = project_path + "/java",
+            proto_out = java_out + java_package
+
+    String ls_result = execute_cmd("ls " + proto_path)
+
+    String[] proto_files = ls_result.split("\n")
+
+    File proto_dir = new File(proto_out)
+
+    if (!proto_dir.exists()) {
+        for(String file : proto_files) {
+            execute_cmd("protoc --proto_path=/" + proto_path +
+                    " --java_out=" + java_out +
+                    " " + proto_path +
+                    "/" + file)
+        }
+
+    } else {
+        if (regenerate) {
+            for(String file : proto_files) {
+                execute_cmd("protoc --proto_path=/" + proto_path +
+                        " --java_out=" + java_out +
+                        " " + proto_path +
+                        "/" + file)
+            }
+        }
+    }
+
+
+}
+
+public String execute_cmd(String command) {
+
+    StringBuffer output = new StringBuffer();
+
+    Process p;
+    try {
+        p = Runtime.getRuntime().exec(command);
+        p.waitFor();
+        BufferedReader reader =
+                new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+        String line = "";
+        while ((line = reader.readLine())!= null) {
+            output.append(line + "\n");
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return output.toString();
+
+}
+
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.7.4'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.7.4'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.7.4'
+    compile group: 'com.google.protobuf', name: 'protobuf-java', version: '2.5.0'
+}
+
+
