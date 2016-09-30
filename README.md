@@ -2,7 +2,7 @@
 
 _1. Install **protoc** before you go next steps_
 
-    ```bash
+    ```
     sudo apt-get install libprotoc
     ```
     
