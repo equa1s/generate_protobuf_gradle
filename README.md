@@ -10,6 +10,11 @@ _2. Create in src/main/ **'protos'** package, then place .proto source files the
 
 _3. Add gradle task:_
 
+```groovy 
+    def java_package = "/generated"
+    def regenerate = true
+```
+
 ```java
     task task_name() {
         generate(java_package, regenerate)
